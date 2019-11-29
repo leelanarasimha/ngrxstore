@@ -2,10 +2,6 @@ import { Action } from '@ngrx/store';
 import { Ingredient } from '../shared/ingredient.model';
 import * as shoppingListActions from './shopping-list.actions';
 
-export interface AppState {
-	shoppingList: State;
-}
-
 export interface State {
 	ingredients: Ingredient[];
 	editedIngredient: Ingredient;
@@ -13,10 +9,7 @@ export interface State {
 }
 
 const initialState: State = {
-	ingredients: [
-		new Ingredient('Apples', 5),
-		new Ingredient('Tomatoes', 10)
-	],
+	ingredients: [ new Ingredient('Apples', 5), new Ingredient('Tomatoes', 10) ],
 	editedIngredient: null,
 	editedIngredientIndex: -1
 };

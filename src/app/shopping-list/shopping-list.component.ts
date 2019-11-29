@@ -5,8 +5,8 @@ import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from './shopping-list.service';
 import { LoggingService } from '../logging.service';
 import { Store } from '@ngrx/store';
-import { AppState } from './shopping-list.reducer';
 import { StartEdit } from './shopping-list.actions';
+import { AppState } from '../store/app.reducer';
 
 @Component({
 	selector: 'app-shopping-list',
@@ -31,9 +31,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 		// 	}
 		// );
 
-		this.loggingService.printLog(
-			'Hello from ShoppingListComponent ngOnInit!'
-		);
+		this.loggingService.printLog('Hello from ShoppingListComponent ngOnInit!');
 	}
 
 	onEditItem(index: number) {
