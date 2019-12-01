@@ -8,7 +8,7 @@ import { AlertComponent } from '../shared/alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.reducer';
-import { LoginStart } from './store/auth.actions';
+import { AuthenticateStart, SignupStart } from './store/auth.actions';
 
 @Component({
 	selector: 'app-auth',
@@ -27,6 +27,9 @@ export class AuthComponent implements OnDestroy {
 		this.store.select('auth').subscribe((authState) => {
 			this.isLoading = authState.isLoading;
 			this.error = authState.error;
+			if (this.error) {
+				this.showErrorAlert(this.error);
+			}
 		});
 	}
 
@@ -54,9 +57,9 @@ export class AuthComponent implements OnDestroy {
 
 		if (this.isLoginMode) {
 			//authObs = this.authService.login(email, password);
-			this.store.dispatch(new LoginStart({ email, password }));
+			this.store.dispatch(new AuthenticateStart({ email, password }));
 		} else {
-			authObs = this.authService.signup(email, password);
+			this.store.dispatch(new SignupStart({ email, password }));
 		}
 
 		// authObs.subscribe(
@@ -73,7 +76,7 @@ export class AuthComponent implements OnDestroy {
 		// 	}
 		// );
 
-		// this.form.reset();
+		form.reset();
 	}
 
 	onHandleError() {

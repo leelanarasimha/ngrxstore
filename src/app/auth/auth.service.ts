@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 import { User } from './user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.reducer';
-import { Login, Logout } from './store/auth.actions';
+import { Logout, AuthenticateSuccess } from './store/auth.actions';
 
 export interface AuthResponseData {
 	kind: string;
@@ -99,7 +99,7 @@ export class AuthService {
 		if (loadedUser.token) {
 			//this.user.next(loadedUser);
 			this.store.dispatch(
-				new Login({
+				new AuthenticateSuccess({
 					email: loadedUser.email,
 					userId: loadedUser.id,
 					token: loadedUser.token,
@@ -133,7 +133,7 @@ export class AuthService {
 		const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
 		const user = new User(email, userId, token, expirationDate);
 		//this.user.next(user);
-		this.store.dispatch(new Login({ email, userId, token, expirationDate }));
+		this.store.dispatch(new AuthenticateSuccess({ email, userId, token, expirationDate }));
 		this.autoLogout(expiresIn * 1000);
 		localStorage.setItem('userData', JSON.stringify(user));
 	}
@@ -144,9 +144,6 @@ export class AuthService {
 			return throwError(errorMessage);
 		}
 		switch (errorRes.error.error.message) {
-			case 'EMAIL_EXISTS':
-				errorMessage = 'This email exists already';
-				break;
 			case 'EMAIL_NOT_FOUND':
 				errorMessage = 'This email does not exist.';
 				break;
